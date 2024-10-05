@@ -3,116 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập và Tạo tài khoản</title>
+    <title>Quản lý Lớp học</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
+            padding: 0;
         }
         .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #77aaff 3px solid;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header ul {
+            padding: 0;
+            list-style: none;
+        }
+        header li {
+            float: left;
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        header #branding {
+            float: left;
+        }
+        header #branding h1 {
+            margin: 0;
+        }
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+        .form-container {
             background: #fff;
             padding: 20px;
-            border-radius: 10px;
+            margin-top: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
         }
-        .container h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-        .container input[type="text"],
-        .container input[type="password"],
-        .container button {
+        .form-container input[type="text"],
+        .form-container input[type="number"],
+        .form-container button {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            margin: 5px 0;
         }
-        .container button {
-            background: #6a11cb;
+        .form-container button {
+            background: #333;
             color: #fff;
             border: none;
             cursor: pointer;
         }
-        .container button:hover {
-            background: #2575fc;
+        .form-container button:hover {
+            background: #555;
         }
-        .container p {
-            margin: 10px 0;
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
         }
-        .container a {
-            color: #6a11cb;
-            text-decoration: none;
+        table, th, td {
+            border: 1px solid #ddd;
         }
-        .container a:hover {
-            text-decoration: underline;
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #333;
+            color: #fff;
+        }
+        .scrollable {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .actions button {
+            margin-right: 5px;
         }
     </style>
 </head>
 <body>
-    <div class="container" id="loginContainer">
-        <h2>Đăng nhập</h2>
-        <form id="loginForm">
-            <input type="text" id="username" name="username" placeholder="Tên đăng nhập" required>
-            <input type="password" id="password" name="password" placeholder="Mật khẩu" required>
-            <button type="submit">Đăng nhập</button>
-        </form>
-        <p>Chưa có tài khoản? <a href="#" id="showRegisterForm">Tạo tài khoản</a></p>
-    </div>
-    <div class="container" id="registerContainer" style="display: none;">
-        <h2>Tạo tài khoản</h2>
-        <form id="registerForm">
-            <input type="text" id="newUsername" name="newUsername" placeholder="Tên đăng nhập" required>
-            <input type="password" id="newPassword" name="newPassword" placeholder="Mật khẩu" required>
-            <button type="submit">Tạo tài khoản</button>
-        </form>
-        <p>Đã có tài khoản? <a href="#" id="showLoginForm">Đăng nhập</a></p>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Quản lý Lớp học</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Trang chủ</a></li>
+                    <li><a href="#">Lớp học</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div class="form-container">
+            <form id="classForm">
+                <label for="className">Tên lớp:</label>
+                <input type="text" id="className" name="className" required>
+                <label for="teacher">Giáo viên:</label>
+                <input type="text" id="teacher" name="teacher" required>
+                <label for="year">Năm học:</label>
+                <input type="number" id="year" name="year" required>
+                <button type="submit">Thêm Lớp</button>
+            </form>
+        </div>
+        <h2>Danh sách Lớp học</h2>
+        <input type="text" id="search" placeholder="Tìm kiếm lớp học...">
+        <div class="scrollable">
+            <table id="classTable">
+                <thead>
+                    <tr>
+                        <th>Tên lớp</th>
+                        <th>Giáo viên</th>
+                        <th>Năm học</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Các lớp học sẽ được thêm vào đây -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
-        const loginContainer = document.getElementById('loginContainer');
-        const registerContainer = document.getElementById('registerContainer');
-        const showRegisterForm = document.getElementById('showRegisterForm');
-        const showLoginForm = document.getElementById('showLoginForm');
+        const classForm = document.getElementById('classForm');
+        const classTable = document.getElementById('classTable').getElementsByTagName('tbody')[0];
+        const searchInput = document.getElementById('search');
 
-        showRegisterForm.addEventListener('click', function() {
-            loginContainer.style.display = 'none';
-            registerContainer.style.display = 'block';
-        });
+        let classes = [];
 
-        showLoginForm.addEventListener('click', function() {
-            registerContainer.style.display = 'none';
-            loginContainer.style.display = 'block';
-        });
-
-        // Xử lý đăng ký tài khoản
-        document.getElementById('registerForm').addEventListener('submit', function(event) {
+        classForm.addEventListener('submit', function(event) {
             event.preventDefault();
-            const newUsername = document.getElementById('newUsername').value;
-            const newPassword = document.getElementById('newPassword').value;
+            const className = document.getElementById('className').value;
+            const teacher = document.getElementById('teacher').value;
+            const year = document.getElementById('year').value;
 
-            // Lưu thông tin tài khoản mới (có thể lưu vào cơ sở dữ liệu hoặc localStorage)
-            alert('Tạo tài khoản thành công!');
-            registerContainer.style.display = 'none';
-            loginContainer.style.display = 'block';
+            const classItem = { className, teacher, year };
+            classes.push(classItem);
+            renderClasses();
+            classForm.reset();
         });
 
-        // Xử lý đăng nhập
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        function renderClasses() {
+            classTable.innerHTML = '';
+            classes.forEach((classItem, index) => {
+                const row = classTable.insertRow();
+                row.insertCell(0).innerText = classItem.className;
+                row.insertCell(1).innerText = classItem.teacher;
+                row.insertCell(2).innerText = classItem.year;
+                const actionsCell = row.insertCell(3);
+                const editButton = document.createElement('button');
+                editButton.innerText = 'Sửa';
+                editButton.onclick = () => editClass(index);
+                const deleteButton = document.createElement('button');
+                deleteButton.innerText = 'Xóa';
+                deleteButton.onclick = () => deleteClass(index);
+                actionsCell.appendChild(editButton);
+                actionsCell.appendChild(deleteButton);
+            });
+        }
 
-            // Kiểm tra thông tin đăng nhập (có thể kiểm tra từ cơ sở dữ liệu hoặc localStorage)
-            alert('Đăng nhập thành công!');
+        function editClass(index) {
+            const classItem = classes[index];
+            document.getElementById('className').value = classItem.className;
+            document.getElementById('teacher').value = classItem.teacher;
+            document.getElementById('year').value = classItem.year;
+            classes.splice(index, 1);
+            renderClasses();
+        }
+
+        function deleteClass(index) {
+            classes.splice(index, 1);
+            renderClasses();
+        }
+
+        searchInput.addEventListener('input', function() {
+            const query = searchInput.value.toLowerCase();
+            const filteredClasses = classes.filter(classItem => 
+                classItem.className.toLowerCase().includes(query) ||
+                classItem.teacher.toLowerCase().includes(query) ||
+                classItem.year.toString().includes(query)
+            );
+            renderFilteredClasses(filteredClasses);
         });
+
+        function renderFilteredClasses(filteredClasses) {
+            classTable.innerHTML = '';
+            filteredClasses.forEach((classItem, index) => {
+                const row = classTable.insertRow();
+                row.insertCell(0).innerText = classItem.className;
+                row.insertCell(1).innerText = classItem.teacher;
+                row.insertCell(2).innerText = classItem.year;
+                const actionsCell = row.insertCell(3);
+                const editButton = document.createElement('button');
+                editButton.innerText = 'Sửa';
+                editButton.onclick = () => editClass(index);
+                const deleteButton = document.createElement('button');
+                deleteButton.innerText = 'Xóa';
+                deleteButton.onclick = () => deleteClass(index);
+                actionsCell.appendChild(editButton);
+                actionsCell.appendChild(deleteButton);
+            });
+        }
     </script>
 </body>
 </html>
