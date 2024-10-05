@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập và Tạo tài khoản</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .container input[type="text"],
+        .container input[type="password"],
+        .container button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .container button {
+            background: #6a11cb;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .container button:hover {
+            background: #2575fc;
+        }
+        .container p {
+            margin: 10px 0;
+        }
+        .container a {
+            color: #6a11cb;
+            text-decoration: none;
+        }
+        .container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="loginContainer">
+        <h2>Đăng nhập</h2>
+        <form id="loginForm">
+            <input type="text" id="username" name="username" placeholder="Tên đăng nhập" required>
+            <input type="password" id="password" name="password" placeholder="Mật khẩu" required>
+            <button type="submit">Đăng nhập</button>
+        </form>
+        <p>Chưa có tài khoản? <a href="#" id="showRegisterForm">Tạo tài khoản</a></p>
+    </div>
+    <div class="container" id="registerContainer" style="display: none;">
+        <h2>Tạo tài khoản</h2>
+        <form id="registerForm">
+            <input type="text" id="newUsername" name="newUsername" placeholder="Tên đăng nhập" required>
+            <input type="password" id="newPassword" name="newPassword" placeholder="Mật khẩu" required>
+            <button type="submit">Tạo tài khoản</button>
+        </form>
+        <p>Đã có tài khoản? <a href="#" id="showLoginForm">Đăng nhập</a></p>
+    </div>
+
+    <script>
+        const loginContainer = document.getElementById('loginContainer');
+        const registerContainer = document.getElementById('registerContainer');
+        const showRegisterForm = document.getElementById('showRegisterForm');
+        const showLoginForm = document.getElementById('showLoginForm');
+
+        showRegisterForm.addEventListener('click', function() {
+            loginContainer.style.display = 'none';
+            registerContainer.style.display = 'block';
+        });
+
+        showLoginForm.addEventListener('click', function() {
+            registerContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+        });
+
+        // Xử lý đăng ký tài khoản
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const newUsername = document.getElementById('newUsername').value;
+            const newPassword = document.getElementById('newPassword').value;
+
+            // Lưu thông tin tài khoản mới (có thể lưu vào cơ sở dữ liệu hoặc localStorage)
+            alert('Tạo tài khoản thành công!');
+            registerContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+        });
+
+        // Xử lý đăng nhập
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Kiểm tra thông tin đăng nhập (có thể kiểm tra từ cơ sở dữ liệu hoặc localStorage)
+            alert('Đăng nhập thành công!');
+        });
+    </script>
+</body>
+</html>
